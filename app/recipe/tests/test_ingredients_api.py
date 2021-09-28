@@ -11,6 +11,7 @@ from recipe.serializers import IngredientSerializer
 
 INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
+
 class PublicIngredientApiTests(TestCase):
     """Test the public available ingredients API"""
 
@@ -29,7 +30,8 @@ class PrivateIngredientApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user('test@test.com', 'passpass')
+        self.user = get_user_model().objects.create_user('test@test.com',
+                                                         'passpass')
 
         self.client.force_authenticate(self.user)
 
@@ -65,7 +67,8 @@ class PrivateIngredientApiTests(TestCase):
         payload = {'name': 'Cabbage'}
         self.client.post(INGREDIENTS_URL, payload)
 
-        exists = Ingredient.objects.filter(user=self.user, name=payload['name']).exists()
+        exists = Ingredient.objects.filter(user=self.user,
+                                           name=payload['name']).exists()
         self.assertTrue(exists)
 
     def test_create_ingredient_invalid(self):
